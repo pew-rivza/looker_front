@@ -16,7 +16,6 @@ export const Navbar = () => {
         <div>
             <h2>Виртуальный гардероб</h2>
             <ul>
-                <li><NavLink to={"/users"}>Пользователи</NavLink></li>
                 <li><NavLink to={"/clothes"}>Вещи</NavLink></li>
                 <li><NavLink to={"/clothes/create"}>Создать вещь</NavLink></li>
                 <li><a href={"/"} onClick={logoutHandler}>Выйти</a></li>

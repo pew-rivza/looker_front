@@ -1,6 +1,5 @@
 import React from "react";
 import {Switch, Route, Redirect} from "react-router-dom";
-import {Users} from "./pages/auth/Users";
 import {Auth} from "./pages/auth/Auth";
 import {Clothes} from "./pages/auth/Clothes";
 import {CreateClothes} from "./pages/auth/CreateClothes";
@@ -10,9 +9,6 @@ export const  useRoutes = (isAuth: boolean) => {
     if (isAuth) {
         return (
             <Switch>
-                <Route path={"/users"} exact>
-                    <Users/>
-                </Route>
                 <Route path={"/clothes"} exact>
                     <Clothes/>
                 </Route>

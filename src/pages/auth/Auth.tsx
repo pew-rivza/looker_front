@@ -33,7 +33,6 @@ export const Auth = () => {
     const loginHandler = async () => {
         try {
             const data = await request("/api/auth/login", "POST", {...form});
-            console.log("data: ", data);
             auth.login(data.token, data.user);
         } catch (e) {}
     }
@@ -46,6 +45,7 @@ export const Auth = () => {
                 <input id={"email"}
                        type={"email"}
                        name={"email"}
+                       value={form.email}
                        placeholder={"E-mail"}
                        onChange={changeHandler}
                 />
@@ -53,6 +53,7 @@ export const Auth = () => {
                 <input id={"password"}
                        type={"password"}
                        name={"password"}
+                       value={form.password}
                        placeholder={"Пароль"}
                        onChange={changeHandler}
                 />
