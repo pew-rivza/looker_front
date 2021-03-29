@@ -10,7 +10,8 @@ export const CreateClothes = () => {
     const auth = useContext(AuthContext);
     const message = useMessage();
     const {loading, request, error, clearError} = useHttp();
-    const [form, setForm] = useState({ category: "", season: "", image: "" });
+    const [form, setForm] = useState({ category: "", season: "" });
+    const [image, setImage] = useState<File>();
 
     useEffect(() => {
         message(error);
@@ -24,11 +25,26 @@ export const CreateClothes = () => {
         }));
     };
 
+    const changeFileHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const filesList = event.target.files;
+
+        if (!filesList) return;
+
+        setImage(filesList[0]);
+    }
+
     const creatingHandler = async () => {
         try {
-            const data = await request("/api/clothes/create", "POST", {...form}, {
-                Authorization: `Bearer ${auth.token}`
-            });
+            const formData = new FormData();
+            formData.append('clothesImage', image as File);
+            for (let key of Object.keys(form) as Array<"category" | "season">) {
+                formData.append(key, form[key])
+            }
+
+            const data = await request("/api/clothes/create", "POST", formData, {
+                "Authorization": `Bearer ${auth.token}`
+            }, false);
+
             history.push(`/clothes/detail/${data.clothes.id}`)
         } catch (e) {}
     }
@@ -52,11 +68,9 @@ export const CreateClothes = () => {
             />
 
             <input id={"image"}
-                   type={"text"}
+                   type={"file"}
                    name={"image"}
-                   value={form.image}
-                   placeholder={"Изображение"}
-                   onChange={changeHandler}
+                   onChange={changeFileHandler}
             />
 
             <button onClick={creatingHandler} disabled={loading}>Создать</button>

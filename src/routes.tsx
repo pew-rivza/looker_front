@@ -18,7 +18,7 @@ export const  useRoutes = (isAuth: boolean) => {
                 <Route path={"/clothes/detail/:id"} exact>
                     <ClothesDetail/>
                 </Route>
-                <Redirect to={"/users"} />
+                <Redirect to={"/clothes"} />
             </Switch>
         )
     }

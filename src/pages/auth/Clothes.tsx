@@ -41,7 +41,7 @@ export const Clothes = () => {
             timeout={3000} //3 secs
         />
     }
-
+    
     return (
         <div>
             <ul>
