@@ -14,7 +14,7 @@ export const Navbar = () => {
 
     return (
         <div>
-            <h2>Виртуальный гардероб</h2>
+            <h2>Виртуальный гардероб Looker</h2>
             <ul>
                 <li><NavLink to={"/clothes"}>Вещи</NavLink></li>
                 <li><NavLink to={"/clothes/create"}>Создать вещь</NavLink></li>

@@ -39,7 +39,7 @@ export const Auth = () => {
 
     return (
         <div style={{margin: "auto", width: "50%", textAlign: "center"}}>
-            <h1>Авторизация</h1>
+            <h1>Авторизация LKR</h1>
 
             <div>
                 <input id={"email"}

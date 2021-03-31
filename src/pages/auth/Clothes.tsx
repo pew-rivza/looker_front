@@ -41,14 +41,14 @@ export const Clothes = () => {
             timeout={3000} //3 secs
         />
     }
-    
+
     return (
         <div>
             <ul>
                 {
                     clothes.map(cl =>
                         <div key={cl?.id}>
-                            {cl?.id}
+                            $ {cl?.id} $
                             <Link to={`/clothes/detail/${cl?.id}`}><img alt={""} src={cl?.image} style={{ width: "150px" }}/></Link>
                             {cl?.category}, {cl?.season}
                         </div>
