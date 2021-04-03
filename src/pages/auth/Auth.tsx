@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useMessage} from "../../hooks/message.hook";
 import {AuthContext} from "../../context/AuthContext";
+import {Login} from "../../components/authStates/Login";
 
 export const Auth = () => {
     const auth = useContext(AuthContext);
@@ -38,31 +39,30 @@ export const Auth = () => {
     }
 
     return (
-        <div style={{margin: "auto", width: "50%", textAlign: "center"}}>
-            <h1>Авторизация LKR</h1>
+        <div>
+            <Login/>
+            {/*<div>*/}
+            {/*    <input id={"email"}*/}
+            {/*           type={"email"}*/}
+            {/*           name={"email"}*/}
+            {/*           value={form.email}*/}
+            {/*           placeholder={"E-mail"}*/}
+            {/*           onChange={changeHandler}*/}
+            {/*    />*/}
 
-            <div>
-                <input id={"email"}
-                       type={"email"}
-                       name={"email"}
-                       value={form.email}
-                       placeholder={"E-mail"}
-                       onChange={changeHandler}
-                />
+            {/*    <input id={"password"}*/}
+            {/*           type={"password"}*/}
+            {/*           name={"password"}*/}
+            {/*           value={form.password}*/}
+            {/*           placeholder={"Пароль"}*/}
+            {/*           onChange={changeHandler}*/}
+            {/*    />*/}
+            {/*</div>*/}
 
-                <input id={"password"}
-                       type={"password"}
-                       name={"password"}
-                       value={form.password}
-                       placeholder={"Пароль"}
-                       onChange={changeHandler}
-                />
-            </div>
-
-            <div>
-                <button onClick={loginHandler}>Войти</button>
-                <button onClick={registerHandler} disabled={loading}>Зарегистрироваться</button>
-            </div>
+            {/*<div>*/}
+            {/*    <button onClick={loginHandler}>Войти</button>*/}
+            {/*    <button onClick={registerHandler} disabled={loading}>Зарегистрироваться</button>*/}
+            {/*</div>*/}
             <ToastContainer />
         </div>
     )
