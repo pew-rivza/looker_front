@@ -11,8 +11,8 @@ export const Login = () => {
     const {loading, request, error, clearError} = useHttp();
     const formik = useFormik({
         initialValues: {
-            email: '',
-            password: ''
+            email: "",
+            password: ""
         },
         validateOnChange: false,
         validateOnBlur: false,
@@ -21,8 +21,6 @@ export const Login = () => {
                 .email("Некорректный e-mail")
                 .required("E-mail является обязательным полем"),
             password: Yup.string()
-                .min(6, "Пароль должен содержать минимум 6 символов")
-                .max(15, "Пароль должен быть не длиннее 15 символов")
                 .required("Пароль является обязательным полем"),
         }),
         onSubmit: async () => {
