@@ -4,6 +4,11 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useMessage} from "../../hooks/message.hook";
 import {Login} from "../../components/authStates/Login";
+import {Registry} from "../../components/authStates/Registry";
+import {EmailConfirmation} from "../../components/authStates/EmailConfirmation";
+import {ForgetPassword} from "../../components/authStates/ForgetPassword";
+import {NewPassword} from "../../components/authStates/NewPassword";
+import {PasswordChanged} from "../../components/authStates/PasswordChanged";
 
 export const Auth = () => {
     const message = useMessage();
@@ -32,6 +37,16 @@ export const Auth = () => {
     return (
         <div>
             <Login/>
+            <hr/>
+            <Registry/>
+            <hr/>
+            <EmailConfirmation/>
+            <hr/>
+            <ForgetPassword/>
+            <hr/>
+            <NewPassword/>
+            <hr/>
+            <PasswordChanged/>
             {/*<div>*/}
             {/*    <input id={"email"}*/}
             {/*           type={"email"}*/}
