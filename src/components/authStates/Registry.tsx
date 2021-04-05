@@ -3,6 +3,8 @@ import {useFormik} from "formik";
 import * as Yup from "yup";
 import {useMessage} from "../../hooks/message.hook";
 import {useHttp} from "../../hooks/http.hook";
+import {Link} from "react-router-dom";
+import {EmailConfirmation} from "./EmailConfirmation";
 
 export const Registry = () => {
     const message = useMessage();
