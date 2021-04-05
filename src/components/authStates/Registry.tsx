@@ -9,7 +9,7 @@ import {EmailConfirmation} from "./EmailConfirmation";
 export const Registry = () => {
     const [confirmation, setConfirmation] = useState(false);
     const message = useMessage();
-    const {loading, request, error, clearError} = useHttp();
+    const {loading, error, clearError} = useHttp();
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -34,13 +34,7 @@ export const Registry = () => {
                 .oneOf([Yup.ref("password")], "Пароли должны совпадать")
         }),
         onSubmit: async () => {
-            console.log("submitted!");
             setConfirmation(true);
-
-            // try {
-            //     const data = await request("/api/auth/register", "POST", {...formik.values});
-            //     message(data.message);
-            // } catch (e) {}
         },
     });
 
