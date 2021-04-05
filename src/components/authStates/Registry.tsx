@@ -70,10 +70,11 @@ export const Registry = () => {
 
     return (
         <>
+            <h2>Регистрация</h2>
             <form onSubmit={formik.handleSubmit}>
                 <input type={"text"} {...formik.getFieldProps("email")}/>
                 <input type={"password"} {...formik.getFieldProps("password")}/>
-                <input type={"passwordAgain"} {...formik.getFieldProps("passwordAgain")}/>
+                <input type={"password"} {...formik.getFieldProps("passwordAgain")}/>
                 <button type={"submit"} onClick={validateForm} disabled={loading}>Зарегистрироваться</button>
             </form>
             <Link to={"/login"}>У меня уже есть аккаунт</Link>
