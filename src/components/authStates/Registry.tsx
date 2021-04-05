@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {useMessage} from "../../hooks/message.hook";
@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import {EmailConfirmation} from "./EmailConfirmation";
 
 export const Registry = () => {
+    const [confirmation, setConfirmation] = useState(false);
     const message = useMessage();
     const {loading, request, error, clearError} = useHttp();
     const formik = useFormik({
@@ -33,10 +34,13 @@ export const Registry = () => {
                 .oneOf([Yup.ref("password")], "Пароли должны совпадать")
         }),
         onSubmit: async () => {
-            try {
-                const data = await request("/api/auth/register", "POST", {...formik.values});
-                message(data.message);
-            } catch (e) {}
+            console.log("submitted!");
+            setConfirmation(true);
+
+            // try {
+            //     const data = await request("/api/auth/register", "POST", {...formik.values});
+            //     message(data.message);
+            // } catch (e) {}
         },
     });
 
@@ -61,6 +65,8 @@ export const Registry = () => {
         message(error);
         clearError();
     }, [error, message, clearError]);
+
+    if (confirmation) return <EmailConfirmation/>
 
     return (
         <>
