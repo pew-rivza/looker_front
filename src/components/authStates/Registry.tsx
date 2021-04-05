@@ -68,7 +68,7 @@ export const Registry = () => {
                 <input type={"passwordAgain"} {...formik.getFieldProps("passwordAgain")}/>
                 <button type={"submit"} onClick={validateForm} disabled={loading}>Зарегистрироваться</button>
             </form>
-            <a href={"/"}>Назад</a>
+            <Link to={"/login"}>У меня уже есть аккаунт</Link>
         </>
     )
 }

@@ -1,9 +1,11 @@
 import React from "react";
 import {Switch, Route, Redirect} from "react-router-dom";
-import {Auth} from "./pages/auth/Auth";
 import {Clothes} from "./pages/auth/Clothes";
 import {CreateClothes} from "./pages/auth/CreateClothes";
 import {ClothesDetail} from "./pages/auth/ClothesDetail";
+import {Login} from "./components/authStates/Login";
+import {Registry} from "./components/authStates/Registry";
+import {ForgetPassword} from "./components/authStates/ForgetPassword";
 
 export const  useRoutes = (isAuth: boolean) => {
     if (isAuth) {
@@ -24,10 +26,16 @@ export const  useRoutes = (isAuth: boolean) => {
     }
     return (
         <Switch>
-            <Route path={"/auth"} exact>
-                <Auth/>
+            <Route path={"/login"} exact>
+                <Login/>
             </Route>
-            <Redirect to={"/auth"} />
+            <Route path={"/registry"} exact>
+                <Registry/>
+            </Route>
+            <Route path={"/forget"} exact>
+                <ForgetPassword/>
+            </Route>
+            <Redirect to={"/login"} />
         </Switch>
     )
 }

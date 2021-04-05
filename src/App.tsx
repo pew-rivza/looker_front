@@ -7,6 +7,8 @@ import {AuthContext} from "./context/AuthContext";
 import {Navbar} from "./components/Navbar";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const { token, login, logout, userId, ready } = useAuth();
@@ -32,6 +34,7 @@ function App() {
                 <div>
                     { routes }
                 </div>
+                <ToastContainer />
             </Router>
         </AuthContext.Provider>
     );

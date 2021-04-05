@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import {useMessage} from "../../hooks/message.hook";
 import {AuthContext} from "../../context/AuthContext";
 import {useHttp} from "../../hooks/http.hook";
+import {Link} from "react-router-dom";
 
 export const Login = () => {
     const auth = useContext(AuthContext);
@@ -55,14 +56,15 @@ export const Login = () => {
 
     return (
         <>
+            <h2>Вход в систему</h2>
             <form onSubmit={formik.handleSubmit}>
                 <input type={"text"} {...formik.getFieldProps("email")}/>
                 <input type={"password"} {...formik.getFieldProps("password")}/>
                 <button type={"submit"} onClick={validateForm} disabled={loading}>Войти</button>
             </form>
 
-            <a href={"/"}>Забыли пароль</a><br/>
-            <a href={"/"}>Регистрация</a>
+            <Link to={"/forget"}>Забыли пароль</Link>
+            <Link to={"/registry"}>Регистрация</Link>
 
             <div>
                 Соцсети
