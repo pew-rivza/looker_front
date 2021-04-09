@@ -18,6 +18,7 @@ export const Login = () => {
         },
         validateOnChange: false,
         validateOnBlur: false,
+        validateOnMount: false,
         validationSchema: Yup.object({
             email: Yup.string()
                 .email("Некорректный e-mail")

@@ -19,6 +19,7 @@ export const Registry = () => {
         },
         validateOnChange: false,
         validateOnBlur: false,
+        validateOnMount: false,
         validationSchema: Yup.object({
             email: Yup.string()
                 .email("Некорректный e-mail")
@@ -27,7 +28,7 @@ export const Registry = () => {
                 .required("Пароль является обязательным полем")
                 .matches(
                     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/,
-                    "Пароль должен быть минимум 6 символов, один заглавный символ, один строчный символ, одну " +
+                    "Пароль должен содержать минимум 6 символов, один заглавный символ, один строчный символ, одну " +
                     "цифру и один специальный символ (@, $, !, %, *, #, ?, &)"
                 ),
             passwordConfirmation: Yup.string()
@@ -42,23 +43,6 @@ export const Registry = () => {
             } catch (e) {}
         },
     });
-
-    const validateForm = async () => {
-        const validation = await formik.validateForm();
-
-        if (Object.keys(validation).length) {
-            const text = <div>
-                Форма заполнена некорректно:<br/>
-
-                {
-                    Object.values(validation).map((error, i) =>
-                        <div key={i}>- {error}</div>
-                    )
-                }
-            </div>
-            message(text)
-        }
-    };
 
     useEffect(() => {
         message(error);
