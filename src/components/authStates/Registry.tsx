@@ -5,6 +5,7 @@ import {useMessage} from "../../hooks/message.hook";
 import {useHttp} from "../../hooks/http.hook";
 import {Link} from "react-router-dom";
 import {EmailConfirmation} from "./EmailConfirmation";
+import {validate} from "../../utils/validation";
 
 export const Registry = () => {
     const [confirmation, setConfirmation] = useState(false);
@@ -14,7 +15,7 @@ export const Registry = () => {
         initialValues: {
             email: "",
             password: "",
-            passwordAgain: ""
+            passwordConfirmation: ""
         },
         validateOnChange: false,
         validateOnBlur: false,
@@ -29,8 +30,8 @@ export const Registry = () => {
                     "Пароль должен быть минимум 6 символов, один заглавный символ, один строчный символ, одну " +
                     "цифру и один специальный символ (@, $, !, %, *, #, ?, &)"
                 ),
-            passwordAgain: Yup.string()
-                .required("Пароль еще раз является обязательным полем")
+            passwordConfirmation: Yup.string()
+                .required("Подтверждение пароля является обязательным полем")
                 .oneOf([Yup.ref("password")], "Пароли должны совпадать")
         }),
         onSubmit: async () => {
@@ -68,8 +69,8 @@ export const Registry = () => {
             <form onSubmit={formik.handleSubmit}>
                 <input type={"text"} {...formik.getFieldProps("email")}/>
                 <input type={"password"} {...formik.getFieldProps("password")}/>
-                <input type={"password"} {...formik.getFieldProps("passwordAgain")}/>
-                <button type={"submit"} onClick={validateForm} disabled={loading}>Зарегистрироваться</button>
+                <input type={"password"} {...formik.getFieldProps("passwordConfirmation")}/>
+                <button type={"submit"} onClick={async () => await validate(formik, message)} disabled={loading}>Зарегистрироваться</button>
             </form>
             <Link to={"/login"}>У меня уже есть аккаунт</Link>
         </>

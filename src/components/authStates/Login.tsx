@@ -5,6 +5,7 @@ import {useMessage} from "../../hooks/message.hook";
 import {AuthContext} from "../../context/AuthContext";
 import {useHttp} from "../../hooks/http.hook";
 import {Link} from "react-router-dom";
+import {validate} from "../../utils/validation";
 
 export const Login = () => {
     const auth = useContext(AuthContext);
@@ -32,23 +33,6 @@ export const Login = () => {
         },
     });
 
-    const validateForm = async () => {
-        const validation = await formik.validateForm();
-
-        if (Object.keys(validation).length) {
-            const text = <div>
-                Форма заполнена некорректно:<br/>
-
-                {
-                    Object.values(validation).map((error, i) =>
-                        <div key={i}>- {error}</div>
-                    )
-                }
-            </div>
-            message(text)
-        }
-    };
-
     useEffect(() => {
         message(error);
         clearError();
@@ -60,7 +44,7 @@ export const Login = () => {
             <form onSubmit={formik.handleSubmit}>
                 <input type={"text"} {...formik.getFieldProps("email")}/>
                 <input type={"password"} {...formik.getFieldProps("password")}/>
-                <button type={"submit"} onClick={validateForm} disabled={loading}>Войти</button>
+                <button type={"submit"} onClick={async () => await validate(formik, message)} disabled={loading}>Войти</button>
             </form>
 
             <Link to={"/forget"}>Забыли пароль</Link>
