@@ -4,7 +4,11 @@ import * as Yup from "yup";
 import {useMessage} from "../../hooks/message.hook";
 import {useHttp} from "../../hooks/http.hook";
 
-export const EmailConfirmation = () => {
+type EmailConfirmationProps = {
+    email: string
+}
+
+export const EmailConfirmation = ({email}: EmailConfirmationProps) => {
     const message = useMessage();
     const {loading, request, error, clearError} = useHttp();
     const formik = useFormik({
@@ -54,6 +58,7 @@ export const EmailConfirmation = () => {
     return (
         <>
             <form onSubmit={formik.handleSubmit}>
+                Код подтверждения для {email}:
                 <input type={"number"} {...formik.getFieldProps("code")}/>
                 <button type={"submit"} onClick={validateForm} disabled={loading}>Подтвердить</button>
             </form>

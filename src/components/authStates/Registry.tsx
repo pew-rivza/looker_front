@@ -10,7 +10,7 @@ import {validate} from "../../utils/validation";
 export const Registry = () => {
     const [confirmation, setConfirmation] = useState(false);
     const message = useMessage();
-    const {loading, error, clearError} = useHttp();
+    const {loading, error, clearError, request} = useHttp();
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -35,7 +35,11 @@ export const Registry = () => {
                 .oneOf([Yup.ref("password")], "Пароли должны совпадать")
         }),
         onSubmit: async () => {
-            setConfirmation(true);
+            try {
+                const data = await request("/api/auth/register", "POST", {...formik.values});
+                console.log(data);
+                setConfirmation(true);
+            } catch (e) {}
         },
     });
 
@@ -61,7 +65,7 @@ export const Registry = () => {
         clearError();
     }, [error, message, clearError]);
 
-    if (confirmation) return <EmailConfirmation/>
+    if (confirmation) return <EmailConfirmation email={formik.values.email}/>
 
     return (
         <>
