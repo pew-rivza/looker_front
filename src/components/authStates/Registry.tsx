@@ -37,8 +37,7 @@ export const Registry = () => {
         }),
         onSubmit: async () => {
             try {
-                const data = await request("/api/auth/register", "POST", {...formik.values});
-                console.log(data);
+                await request("/api/auth/register", "POST", {...formik.values});
                 setConfirmation(true);
             } catch (e) {}
         },
@@ -58,7 +57,9 @@ export const Registry = () => {
                 <input type={"text"} {...formik.getFieldProps("email")}/>
                 <input type={"password"} {...formik.getFieldProps("password")}/>
                 <input type={"password"} {...formik.getFieldProps("passwordConfirmation")}/>
-                <button type={"submit"} onClick={async () => await validate(formik, message)} disabled={loading}>Зарегистрироваться</button>
+                <button type={"submit"}
+                        onClick={async () => await validate(formik, message)}
+                        disabled={loading}>Зарегистрироваться</button>
             </form>
             <Link to={"/login"}>У меня уже есть аккаунт</Link>
         </>
