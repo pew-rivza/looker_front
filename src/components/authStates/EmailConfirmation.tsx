@@ -15,7 +15,7 @@ type EmailConfirmationProps = {
 export const EmailConfirmation = ({email, entity}: EmailConfirmationProps) => {
     const auth = useContext(AuthContext);
     const [newPassword, setNewPassword] = useState(false);
-    const [allowSend, setAllowSend] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(0);
     const message = useMessage();
     const {loading, request, error, clearError} = useHttp();
     const formik = useFormik({
@@ -44,15 +44,21 @@ export const EmailConfirmation = ({email, entity}: EmailConfirmationProps) => {
     }, [error, message, clearError]);
 
     useEffect(() => {
-        const timer = setTimeout(() => setAllowSend(true), 10000);
+        const timer = setTimeout(() => setTimeLeft(prevState => {
+            if (prevState) {
+                clearTimeout(timer);
+                return prevState - 1;
+            }
+            return 0;
+        }), 1000);
 
         return () => clearTimeout(timer);
-    }, [allowSend])
+    }, [timeLeft])
 
     const resendCode = async () => {
         const data = await request("/api/auth/resend", "POST", { email });
         message(data.message);
-        setAllowSend(false);
+        setTimeLeft(10);
     }
 
     if (newPassword) return <NewPassword email={email}/>
@@ -68,7 +74,12 @@ export const EmailConfirmation = ({email, entity}: EmailConfirmationProps) => {
                         disabled={loading}>Подтвердить</button>
             </form>
 
-            <button onClick={resendCode} disabled={!allowSend}>Отправить код еще раз (0 сек.)</button>
+            {
+                timeLeft
+                    ? <div>Отправить код повторно через {timeLeft} сек.</div>
+                    : <button onClick={resendCode}>Отправить код повторно</button>
+            }
+
             <div onClick={() => window.location.reload()}>
                 Назад
             </div>
