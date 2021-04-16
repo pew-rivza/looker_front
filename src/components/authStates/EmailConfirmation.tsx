@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {useMessage} from "../../hooks/message.hook";
@@ -7,11 +7,13 @@ import {validate} from "../../utils/validation";
 import {AuthContext} from "../../context/AuthContext";
 
 type EmailConfirmationProps = {
-    email: string
+    email: string,
+    entity: string
 }
 
 export const EmailConfirmation = ({email}: EmailConfirmationProps) => {
     const auth = useContext(AuthContext);
+    const [allowSend, setAllowSend] = useState(false);
     const message = useMessage();
     const {loading, request, error, clearError} = useHttp();
     const formik = useFormik({
@@ -37,6 +39,20 @@ export const EmailConfirmation = ({email}: EmailConfirmationProps) => {
         clearError();
     }, [error, message, clearError]);
 
+    useEffect(() => {
+        const timer = setTimeout(() => setAllowSend(true), 10000);
+
+        return () => clearTimeout(timer);
+    }, [allowSend])
+
+    const resendCode = async () => {
+        const data = await request("/api/auth/resend", "POST", { email });
+        message(data.message);
+        setAllowSend(false);
+    }
+
+
+
     return (
         <>
             <form onSubmit={formik.handleSubmit}>
@@ -46,6 +62,8 @@ export const EmailConfirmation = ({email}: EmailConfirmationProps) => {
                         onClick={async () => await validate(formik, message)}
                         disabled={loading}>Подтвердить</button>
             </form>
+
+            <button onClick={resendCode} disabled={!allowSend}>Отправить код еще раз (0 сек.)</button>
         </>
     )
 }
