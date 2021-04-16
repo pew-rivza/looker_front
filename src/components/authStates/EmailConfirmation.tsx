@@ -5,14 +5,16 @@ import {useMessage} from "../../hooks/message.hook";
 import {useHttp} from "../../hooks/http.hook";
 import {validate} from "../../utils/validation";
 import {AuthContext} from "../../context/AuthContext";
+import {NewPassword} from "./NewPassword";
 
 type EmailConfirmationProps = {
     email: string,
     entity: string
 }
 
-export const EmailConfirmation = ({email}: EmailConfirmationProps) => {
+export const EmailConfirmation = ({email, entity}: EmailConfirmationProps) => {
     const auth = useContext(AuthContext);
+    const [newPassword, setNewPassword] = useState(false);
     const [allowSend, setAllowSend] = useState(false);
     const message = useMessage();
     const {loading, request, error, clearError} = useHttp();
@@ -29,8 +31,9 @@ export const EmailConfirmation = ({email}: EmailConfirmationProps) => {
         }),
         onSubmit: async () => {
             try {
-                const data = await request("/api/auth/confirm", "POST", {...formik.values, email});
-                auth.login(data.token, data.user);
+                const data = await request(`/api/auth/${entity}/confirm`, "POST", {...formik.values, email});
+                if (entity === "register") auth.login(data.token, data.user);
+                if (entity === "forget") setNewPassword(true);
             } catch (e) {}
         },
     });
@@ -52,7 +55,7 @@ export const EmailConfirmation = ({email}: EmailConfirmationProps) => {
         setAllowSend(false);
     }
 
-
+    if (newPassword) return <NewPassword email={email}/>
 
     return (
         <>

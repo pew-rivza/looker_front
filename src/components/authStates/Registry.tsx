@@ -48,7 +48,7 @@ export const Registry = () => {
         clearError();
     }, [error, message, clearError]);
 
-    if (confirmation) return <EmailConfirmation email={formik.values.email}/>
+    if (confirmation) return <EmailConfirmation email={formik.values.email} entity={"register"}/>
 
     return (
         <>
