@@ -22,6 +22,7 @@ export const EmailConfirmation = ({email}: EmailConfirmationProps) => {
         },
         validateOnChange: false,
         validateOnBlur: false,
+        validateOnMount: false,
         validationSchema: Yup.object({
             code: Yup.string()
                 .required("Код подтверждения является обязательным полем")
@@ -55,6 +56,7 @@ export const EmailConfirmation = ({email}: EmailConfirmationProps) => {
 
     return (
         <>
+            <h2>Подтверждение пароля</h2>
             <form onSubmit={formik.handleSubmit}>
                 Код подтверждения для {email}:<br/>
                 <input type={"text"} {...formik.getFieldProps("code")}/>
@@ -64,6 +66,9 @@ export const EmailConfirmation = ({email}: EmailConfirmationProps) => {
             </form>
 
             <button onClick={resendCode} disabled={!allowSend}>Отправить код еще раз (0 сек.)</button>
+            <div onClick={() => window.location.reload()}>
+                Назад
+            </div>
         </>
     )
 }
