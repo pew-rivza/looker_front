@@ -39,6 +39,10 @@ export const EmailConfirmation = ({email, entity}: EmailConfirmationProps) => {
     });
 
     useEffect(() => {
+        setTimeLeft(10);
+    }, []);
+
+    useEffect(() => {
         message(error);
         clearError();
     }, [error, message, clearError]);
