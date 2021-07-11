@@ -31,7 +31,7 @@ export const EmailConfirmation = ({email, entity}: EmailConfirmationProps) => {
         }),
         onSubmit: async () => {
             try {
-                const data = await request(`/api/auth/${entity}/confirm`, "POST", {...formik.values, email});
+                const data = await request(`/api/user/${entity}/confirm`, "POST", {...formik.values, email});
                 if (entity === "register") auth.login(data.token, data.user);
                 if (entity === "forget") setNewPassword(true);
             } catch (e) {}
@@ -60,7 +60,7 @@ export const EmailConfirmation = ({email, entity}: EmailConfirmationProps) => {
     }, [timeLeft])
 
     const resendCode = async () => {
-        const data = await request("/api/auth/resend", "POST", { email });
+        const data = await request("/api/user/resend", "POST", { email });
         message(data.message);
         setTimeLeft(10);
     }

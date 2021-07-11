@@ -37,7 +37,8 @@ export const Registry = () => {
         }),
         onSubmit: async () => {
             try {
-                await request("/api/auth/register", "POST", {...formik.values});
+                let data = await request("/api/user/register", "POST", {...formik.values});
+                console.log("data:", data);
                 setConfirmation(true);
             } catch (e) {}
         },

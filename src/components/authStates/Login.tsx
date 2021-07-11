@@ -28,7 +28,7 @@ export const Login = () => {
         }),
         onSubmit: async () => {
             try {
-                const data = await request("/api/auth/login", "POST", {...formik.values});
+                const data = await request("/api/user/login", "POST", {...formik.values});
                 auth.login(data.token, data.user);
             } catch (e) {}
         },

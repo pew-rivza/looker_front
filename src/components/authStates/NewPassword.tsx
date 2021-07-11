@@ -36,7 +36,7 @@ export const NewPassword = ({ email }: NewPasswordProps) => {
         }),
         onSubmit: async () => {
             try {
-                const data = await request(`/api/auth/password`, "POST", {...formik.values, email});
+                const data = await request(`/api/user/password`, "POST", {...formik.values, email});
                 message(data.message);
                 history.push("/login");
             } catch (e) {}

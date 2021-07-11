@@ -25,7 +25,7 @@ export const ForgetPassword = () => {
         }),
         onSubmit: async () => {
             try {
-                await request("/api/auth/forget", "POST", {...formik.values});
+                await request("/api/user/forget", "POST", {...formik.values});
                 setConfirmation(true);
             } catch (e) {}
         },
