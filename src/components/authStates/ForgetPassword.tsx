@@ -36,7 +36,7 @@ export const ForgetPassword = () => {
         clearError();
     }, [error, message, clearError]);
 
-    if (confirmation) return <EmailConfirmation email={formik.values.email} entity={"forget"}/>
+    if (confirmation) return <EmailConfirmation entity={"forget"}/>
 
     return (
         <>

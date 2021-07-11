@@ -1,19 +1,22 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {useMessage} from "../../hooks/message.hook";
 import {useHttp} from "../../hooks/http.hook";
 import {validate} from "../../utils/validation";
-import {AuthContext} from "../../context/AuthContext";
 import {NewPassword} from "./NewPassword";
+import {useHistory} from "react-router-dom";
+import {useParams} from "react-router-dom";
+import { decode } from 'js-base64';
 
 type EmailConfirmationProps = {
-    email: string,
     entity: string
 }
 
-export const EmailConfirmation = ({email, entity}: EmailConfirmationProps) => {
-    const auth = useContext(AuthContext);
+export const EmailConfirmation = ({entity}: EmailConfirmationProps) => {
+    const history = useHistory();
+    let { user } = useParams() as any;
+    const { email } = JSON.parse(decode(user));
     const [newPassword, setNewPassword] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
     const message = useMessage();
@@ -31,8 +34,8 @@ export const EmailConfirmation = ({email, entity}: EmailConfirmationProps) => {
         }),
         onSubmit: async () => {
             try {
-                const data = await request(`/api/user/${entity}/confirm`, "POST", {...formik.values, email});
-                if (entity === "register") auth.login(data.token, data.user);
+                await request("/api/user/", "PATCH", {...formik.values, email});
+                if (entity === "register") history.push("/login");
                 if (entity === "forget") setNewPassword(true);
             } catch (e) {}
         },

@@ -6,6 +6,7 @@ import {ClothesDetail} from "./pages/auth/ClothesDetail";
 import {Login} from "./components/authStates/Login";
 import {Registry} from "./components/authStates/Registry";
 import {ForgetPassword} from "./components/authStates/ForgetPassword";
+import {EmailConfirmation} from "./components/authStates/EmailConfirmation";
 
 export const  useRoutes = (isAuth: boolean) => {
     if (isAuth) {
@@ -28,6 +29,9 @@ export const  useRoutes = (isAuth: boolean) => {
         <Switch>
             <Route path={"/login"} exact>
                 <Login/>
+            </Route>
+            <Route path={"/confirmation/:user"} exact>
+                <EmailConfirmation entity={"register"} />
             </Route>
             <Route path={"/registry"} exact>
                 <Registry/>

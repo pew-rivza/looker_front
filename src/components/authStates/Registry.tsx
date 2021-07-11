@@ -1,45 +1,23 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {useFormik} from "formik";
-import * as Yup from "yup";
 import {useMessage} from "../../hooks/message.hook";
 import {useHttp} from "../../hooks/http.hook";
-import {Link} from "react-router-dom";
-import {EmailConfirmation} from "./EmailConfirmation";
+import {Link, useHistory} from "react-router-dom";
 import {validate} from "../../utils/validation";
+import {registrationConfig} from "../../formicConfigs/auth/registration.config";
+import { encode } from 'js-base64';
 
 export const Registry = () => {
-    const [confirmation, setConfirmation] = useState(false);
+    const history = useHistory();
     const message = useMessage();
     const {loading, error, clearError, request} = useHttp();
     const formik = useFormik({
-        initialValues: {
-            email: "",
-            password: "",
-            passwordConfirmation: ""
-        },
-        validateOnChange: false,
-        validateOnBlur: false,
-        validateOnMount: false,
-        validationSchema: Yup.object({
-            email: Yup.string()
-                .email("Некорректный e-mail")
-                .required("E-mail является обязательным полем"),
-            password: Yup.string()
-                .required("Пароль является обязательным полем")
-                .matches(
-                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/,
-                    "Пароль должен содержать минимум 6 символов, один заглавный символ, один строчный символ, одну " +
-                    "цифру и один специальный символ (@, $, !, %, *, #, ?, &)"
-                ),
-            passwordConfirmation: Yup.string()
-                .required("Подтверждение пароля является обязательным полем")
-                .oneOf([Yup.ref("password")], "Пароли должны совпадать")
-        }),
+        ...registrationConfig,
         onSubmit: async () => {
             try {
-                let data = await request("/api/user/register", "POST", {...formik.values});
-                console.log("data:", data);
-                setConfirmation(true);
+                let response = await request("/api/user/", "POST", {...formik.values});
+                console.log("user:", response.data);
+                history.push(`/confirmation/${encode(JSON.stringify(response.data))}`);
             } catch (e) {}
         },
     });
@@ -48,8 +26,6 @@ export const Registry = () => {
         message(error);
         clearError();
     }, [error, message, clearError]);
-
-    if (confirmation) return <EmailConfirmation email={formik.values.email} entity={"register"}/>
 
     return (
         <>
