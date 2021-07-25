@@ -31,7 +31,7 @@ export const  useRoutes = (isAuth: boolean) => {
                 <Login/>
             </Route>
             <Route path={"/confirmation/:user"} exact>
-                <EmailConfirmation entity={"register"} />
+                <EmailConfirmation />
             </Route>
             <Route path={"/registry"} exact>
                 <Registry/>

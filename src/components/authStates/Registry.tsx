@@ -16,8 +16,8 @@ export const Registry = () => {
         onSubmit: async () => {
             try {
                 let response = await request("/api/user/", "POST", {...formik.values});
-                console.log("user:", response.data);
-                history.push(`/confirmation/${encode(JSON.stringify(response.data))}`);
+                const hashedUser = encode(JSON.stringify({...response.data, isNewPassword: false}));
+                history.push(`/confirmation/${hashedUser}`);
             } catch (e) {}
         },
     });

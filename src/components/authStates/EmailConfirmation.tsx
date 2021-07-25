@@ -9,14 +9,10 @@ import {useHistory} from "react-router-dom";
 import {useParams} from "react-router-dom";
 import { decode } from 'js-base64';
 
-type EmailConfirmationProps = {
-    entity: string
-}
-
-export const EmailConfirmation = ({entity}: EmailConfirmationProps) => {
+export const EmailConfirmation = () => {
     const history = useHistory();
     let { user } = useParams() as any;
-    const { email } = JSON.parse(decode(user));
+    const { email, isNewPassword } = JSON.parse(decode(user));
     const [newPassword, setNewPassword] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
     const message = useMessage();
@@ -34,9 +30,8 @@ export const EmailConfirmation = ({entity}: EmailConfirmationProps) => {
         }),
         onSubmit: async () => {
             try {
-                await request("/api/user/", "PATCH", {...formik.values, email});
-                if (entity === "register") history.push("/login");
-                if (entity === "forget") setNewPassword(true);
+                await request("/api/user/confirmation", "POST", {...formik.values, email});
+                isNewPassword ? setNewPassword(true) : history.push("/login");
             } catch (e) {}
         },
     });
