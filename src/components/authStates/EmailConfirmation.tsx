@@ -1,37 +1,27 @@
 import React, {useEffect, useState} from "react";
 import {useFormik} from "formik";
-import * as Yup from "yup";
 import {useMessage} from "../../hooks/message.hook";
 import {useHttp} from "../../hooks/http.hook";
 import {validate} from "../../utils/validation";
-import {NewPassword} from "./NewPassword";
 import {useHistory} from "react-router-dom";
 import {useParams} from "react-router-dom";
 import { decode } from 'js-base64';
+import {confirmationConfig} from "../../formicConfigs/auth/confirmation.config";
 
 export const EmailConfirmation = () => {
     const history = useHistory();
     let { user } = useParams() as any;
-    const { email, isNewPassword } = JSON.parse(decode(user));
-    const [newPassword, setNewPassword] = useState(false);
+    const { email, id, redirect } = JSON.parse(decode(user));
     const [timeLeft, setTimeLeft] = useState(0);
     const message = useMessage();
     const {loading, request, error, clearError} = useHttp();
     const formik = useFormik({
-        initialValues: {
-            code: "",
-        },
-        validateOnChange: false,
-        validateOnBlur: false,
-        validateOnMount: false,
-        validationSchema: Yup.object({
-            code: Yup.string()
-                .required("Код подтверждения является обязательным полем")
-        }),
+        ...confirmationConfig,
         onSubmit: async () => {
             try {
-                await request("/api/user/confirmation", "POST", {...formik.values, email});
-                isNewPassword ? setNewPassword(true) : history.push("/login");
+                const response = await request(`/api/user/${id}/confirmation`, "POST", {...formik.values});
+                message(response.message);
+                history.push(redirect);
             } catch (e) {}
         },
     });
@@ -58,16 +48,14 @@ export const EmailConfirmation = () => {
     }, [timeLeft])
 
     const resendCode = async () => {
-        const data = await request("/api/user/resend", "POST", { email });
+        const data = await request(`/api/user/${id}/confirmation`, "GET");
         message(data.message);
         setTimeLeft(10);
     }
 
-    if (newPassword) return <NewPassword email={email}/>
-
     return (
         <>
-            <h2>Подтверждение пароля</h2>
+            <h2>Подтверждение учетной записи</h2>
             <form onSubmit={formik.handleSubmit}>
                 Код подтверждения для {email}:<br/>
                 <input type={"text"} {...formik.getFieldProps("code")}/>
