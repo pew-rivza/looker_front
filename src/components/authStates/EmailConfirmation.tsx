@@ -6,7 +6,7 @@ import {validate} from "../../utils/validation";
 import {useHistory} from "react-router-dom";
 import {useParams} from "react-router-dom";
 import { decode } from 'js-base64';
-import {confirmationConfig} from "../../formicConfigs/auth/confirmation.config";
+import {confirmationConfig} from "../../formikConfigs/auth/confirmation.config";
 
 export const EmailConfirmation = () => {
     const history = useHistory();

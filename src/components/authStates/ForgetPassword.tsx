@@ -4,7 +4,7 @@ import {useMessage} from "../../hooks/message.hook";
 import {useHttp} from "../../hooks/http.hook";
 import {validate} from "../../utils/validation";
 import {Link, useHistory} from "react-router-dom";
-import {forgetPasswordConfig} from "../../formicConfigs/auth/forgetPassword.config";
+import {forgetPasswordConfig} from "../../formikConfigs/auth/forgetPassword.config";
 import {encode} from "js-base64";
 
 export const ForgetPassword = () => {

@@ -5,7 +5,7 @@ import {useFormik} from "formik";
 import {validate} from "../../utils/validation";
 import {useHistory, useParams} from "react-router-dom";
 import {decode} from "js-base64";
-import {newPasswordConfig} from "../../formicConfigs/auth/newPassword.config";
+import {newPasswordConfig} from "../../formikConfigs/auth/newPassword.config";
 
 export const NewPassword = () => {
     const history = useHistory();

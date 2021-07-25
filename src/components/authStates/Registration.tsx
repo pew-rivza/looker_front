@@ -4,7 +4,7 @@ import {useMessage} from "../../hooks/message.hook";
 import {useHttp} from "../../hooks/http.hook";
 import {Link, useHistory} from "react-router-dom";
 import {validate} from "../../utils/validation";
-import {registrationConfig} from "../../formicConfigs/auth/registration.config";
+import {registrationConfig} from "../../formikConfigs/auth/registration.config";
 import { encode } from 'js-base64';
 
 export const Registration = () => {

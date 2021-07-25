@@ -5,7 +5,7 @@ import {AuthContext} from "../../context/AuthContext";
 import {useHttp} from "../../hooks/http.hook";
 import {Link} from "react-router-dom";
 import {validate} from "../../utils/validation";
-import {loginConfig} from "../../formicConfigs/auth/login.config";
+import {loginConfig} from "../../formikConfigs/auth/login.config";
 
 export const Login = () => {
     const auth = useContext(AuthContext);
