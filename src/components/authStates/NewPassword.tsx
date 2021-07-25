@@ -2,42 +2,23 @@ import React, {useEffect} from "react";
 import {useMessage} from "../../hooks/message.hook";
 import {useHttp} from "../../hooks/http.hook";
 import {useFormik} from "formik";
-import * as Yup from "yup";
 import {validate} from "../../utils/validation";
-import {useHistory} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
+import {decode} from "js-base64";
+import {newPasswordConfig} from "../../formicConfigs/auth/newPassword.config";
 
-type NewPasswordProps = {
-    email: string,
-}
-
-export const NewPassword = ({ email }: NewPasswordProps) => {
+export const NewPassword = () => {
     const history = useHistory();
+    let { user } = useParams() as any;
+    const { email, id } = JSON.parse(decode(user));
     const message = useMessage();
     const {loading, request, error, clearError} = useHttp();
     const formik = useFormik({
-        initialValues: {
-            password: "",
-            passwordConfirmation: ""
-        },
-        validateOnChange: false,
-        validateOnBlur: false,
-        validateOnMount: false,
-        validationSchema: Yup.object({
-            password: Yup.string()
-                .required("Пароль является обязательным полем")
-                .matches(
-                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/,
-                    "Пароль должен содержать минимум 6 символов, один заглавный символ, один строчный символ, одну " +
-                    "цифру и один специальный символ (@, $, !, %, *, #, ?, &)"
-                ),
-            passwordConfirmation: Yup.string()
-                .required("Подтверждение пароля является обязательным полем")
-                .oneOf([Yup.ref("password")], "Пароли должны совпадать")
-        }),
+        ...newPasswordConfig,
         onSubmit: async () => {
             try {
-                const data = await request(`/api/user/password`, "POST", {...formik.values, email});
-                message(data.message);
+                const response = await request(`/api/user/${id}`, "PATCH", {...formik.values});
+                message(response.message);
                 history.push("/login");
             } catch (e) {}
         },
@@ -59,7 +40,7 @@ export const NewPassword = ({ email }: NewPasswordProps) => {
                         onClick={async () => await validate(formik, message)}
                         disabled={loading}>Сохранить</button>
             </form>
-            <div onClick={() => window.location.reload()}>
+            <div onClick={() => history.goBack()}>
                 Назад
             </div>
         </>

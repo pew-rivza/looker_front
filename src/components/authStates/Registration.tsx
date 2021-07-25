@@ -7,7 +7,7 @@ import {validate} from "../../utils/validation";
 import {registrationConfig} from "../../formicConfigs/auth/registration.config";
 import { encode } from 'js-base64';
 
-export const Registry = () => {
+export const Registration = () => {
     const history = useHistory();
     const message = useMessage();
     const {loading, error, clearError, request} = useHttp();

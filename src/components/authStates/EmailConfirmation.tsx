@@ -21,7 +21,7 @@ export const EmailConfirmation = () => {
             try {
                 const response = await request(`/api/user/${id}/confirmation`, "POST", {...formik.values});
                 message(response.message);
-                history.push(redirect);
+                if (redirect) history.push(redirect);
             } catch (e) {}
         },
     });
@@ -48,8 +48,8 @@ export const EmailConfirmation = () => {
     }, [timeLeft])
 
     const resendCode = async () => {
-        const data = await request(`/api/user/${id}/confirmation`, "GET");
-        message(data.message);
+        const response = await request(`/api/user/${id}/confirmation`, "GET");
+        message(response.message);
         setTimeLeft(10);
     }
 

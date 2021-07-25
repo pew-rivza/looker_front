@@ -4,9 +4,10 @@ import {Clothes} from "./pages/auth/Clothes";
 import {CreateClothes} from "./pages/auth/CreateClothes";
 import {ClothesDetail} from "./pages/auth/ClothesDetail";
 import {Login} from "./components/authStates/Login";
-import {Registry} from "./components/authStates/Registry";
+import {Registration} from "./components/authStates/Registration";
 import {ForgetPassword} from "./components/authStates/ForgetPassword";
 import {EmailConfirmation} from "./components/authStates/EmailConfirmation";
+import {NewPassword} from "./components/authStates/NewPassword";
 
 export const  useRoutes = (isAuth: boolean) => {
     if (isAuth) {
@@ -33,8 +34,11 @@ export const  useRoutes = (isAuth: boolean) => {
             <Route path={"/confirmation/:user"} exact>
                 <EmailConfirmation />
             </Route>
-            <Route path={"/registry"} exact>
-                <Registry/>
+            <Route path={"/password/:user"} exact>
+                <NewPassword />
+            </Route>
+            <Route path={"/registration"} exact>
+                <Registration/>
             </Route>
             <Route path={"/forget"} exact>
                 <ForgetPassword/>

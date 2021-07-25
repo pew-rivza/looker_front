@@ -1,32 +1,35 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {useFormik} from "formik";
-import * as Yup from "yup";
 import {useMessage} from "../../hooks/message.hook";
 import {useHttp} from "../../hooks/http.hook";
 import {validate} from "../../utils/validation";
-import {Link} from "react-router-dom";
-import {EmailConfirmation} from "./EmailConfirmation";
+import {Link, useHistory} from "react-router-dom";
+import {forgetPasswordConfig} from "../../formicConfigs/auth/forgetPassword.config";
+import {encode} from "js-base64";
 
 export const ForgetPassword = () => {
-    const [confirmation, setConfirmation] = useState(false);
+    const history = useHistory();
     const message = useMessage();
     const {loading, request, error, clearError} = useHttp();
     const formik = useFormik({
-        initialValues: {
-            email: "",
-        },
-        validateOnChange: false,
-        validateOnBlur: false,
-        validateOnMount: false,
-        validationSchema: Yup.object({
-            email: Yup.string()
-                .email("Некорректный e-mail")
-                .required("E-mail является обязательным полем"),
-        }),
+       ...forgetPasswordConfig,
         onSubmit: async () => {
             try {
-                await request("/api/user/forget", "POST", {...formik.values});
-                setConfirmation(true);
+                const responseUser = await request(`/api/user/${formik.values.email}`, "GET");
+                const responseConfirmation = await request(`/api/user/${responseUser.data.id}/confirmation`, "GET");
+
+                message(responseConfirmation.message);
+
+                const userData = {
+                    id: responseUser.data.id,
+                    email: formik.values.email,
+                };
+                const hashedUser = encode(JSON.stringify({
+                    ...userData,
+                    redirect: `/password/${encode(JSON.stringify(userData))}`,
+                }));
+
+                history.push(`/confirmation/${hashedUser}`);
             } catch (e) {}
         },
     });
@@ -36,7 +39,6 @@ export const ForgetPassword = () => {
         clearError();
     }, [error, message, clearError]);
 
-    if (confirmation) return <EmailConfirmation/>
 
     return (
         <>

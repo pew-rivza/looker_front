@@ -16,10 +16,10 @@ export const Clothes = () => {
 
     const getClothes = useCallback(async () => {
         try {
-            const data = await request("/api/clothes/", "GET", null, {
+            const response = await request("/api/clothes/", "GET", null, {
                 Authorization: `Bearer ${auth.token}`
             });
-            setClothes(data.clothes);
+            setClothes(response.clothes);
         } catch (e) {}
     }, [auth, request])
 

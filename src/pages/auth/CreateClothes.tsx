@@ -41,11 +41,11 @@ export const CreateClothes = () => {
                 formData.append(key, form[key])
             }
 
-            const data = await request("/api/clothes/create", "POST", formData, {
+            const response = await request("/api/clothes/create", "POST", formData, {
                 "Authorization": `Bearer ${auth.token}`
             }, false);
 
-            history.push(`/clothes/detail/${data.clothes.id}`)
+            history.push(`/clothes/detail/${response.clothes.id}`)
         } catch (e) {}
     }
 
