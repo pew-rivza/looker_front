@@ -1,7 +1,26 @@
 {
   "name": "looker_front",
   "version": "0.1.0",
+  "description": "This is frontend for the wardrobe management application Looker.",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pew-rivza/looker_front.git"
+  },
+  "keywords": [
+    "wardrobe",
+    "lookbook",
+    "clothes"
+  ],
+  "author": {
+    "name": "pew-rivza",
+    "email": "pug.ekat@gmail.com"
+  },
+  "license": "AGPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/pew-rivza/looker_front/issues"
+  },
+  "homepage": "https://github.com/pew-rivza/looker_front#readme",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
